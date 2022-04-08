@@ -1,6 +1,6 @@
-package StoreTests;
+package storeTests;
 
-import Pages.BasePage;
+import pages.BasePage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

@@ -1,6 +1,6 @@
-package StoreTests;
+package storeTests;
 
-import Pages.MainPage;
+import pages.MainPage;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
@@ -8,7 +8,7 @@ public class LoginTests extends BaseTest{
     MainPage mainPage = new MainPage();
 
     @Test(priority = 1)
-    public void checkThatMessageYourAccountHasBeenCreatedAppears(){
+    public void checkThatMessageYourAccountHasBeenCreatedAppearsTest(){
         String expectedMessage = "Your Account Has Been Created!";
 
         String successMessage = mainPage
@@ -33,7 +33,7 @@ public class LoginTests extends BaseTest{
     }
 
     @Test(priority = 2)
-    public void checkThatMessageFirstNameMustBeBetween1And32CharactersAppears(){
+    public void checkThatMessageFirstNameMustBeBetween1And32CharactersAppearsTest(){
         String expectedAttentionText = "First Name must be between 1 and 32 characters!";
 
 
@@ -57,7 +57,7 @@ public class LoginTests extends BaseTest{
     }
 
     @Test(priority = 3)
-    public void checkThatMyAccountTitleAppearsOnTheLeftMenu(){
+    public void checkThatMyAccountTitleAppearsOnTheLeftMenuTest(){
         String expectedTextLabel = "My Account";
 
         String textFromMyAccountLabel = mainPage.clickOnMyAccountIcon()
@@ -71,5 +71,14 @@ public class LoginTests extends BaseTest{
                 .as("On the left menu must be appears title: " + expectedTextLabel)
                 .isEqualTo(expectedTextLabel);
 
+    }
+
+    @Test
+    public void checkThat2ItemsExistInYourWishList(){
+        mainPage.clickOnMyAccountIcon()
+                .clickOnLoginButton()
+                .enterEmailInput("vovchyk20080@gmail.com")
+                .enterPasswordInput("1234")
+                .clickOnMonitors();
     }
 }
