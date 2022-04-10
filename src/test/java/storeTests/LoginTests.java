@@ -3,6 +3,7 @@ package storeTests;
 import pages.MainPage;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
+import pages.MonitorsPage;
 
 public class LoginTests extends BaseTest{
     MainPage mainPage = new MainPage();
@@ -14,12 +15,12 @@ public class LoginTests extends BaseTest{
         String successMessage = mainPage
                 .clickOnMyAccountIcon()
                 .clickOnRegistrationButton()
-                .enterFirstNameField("Elton")
-                .enterLastNameField("John")
-                .enterEmailField("Elton@mail.com")
-                .enterTelephoneField("1111")
-                .enterPasswordField("1111")
-                .enterConfirmPasswordField("1111")
+                .enterFirstNameField("Eltfdon")
+                .enterLastNameField("Jofdfhn")
+                .enterEmailField("Eltdfon@mail.com")
+                .enterTelephoneField("1df111")
+                .enterPasswordField("11df11")
+                .enterConfirmPasswordField("11df11")
                 .clickOnNotSubscribeRadioButton()
                 .clickOnAgreeCheckBox()
                 .clickOnContinueButton()
@@ -79,6 +80,10 @@ public class LoginTests extends BaseTest{
                 .clickOnLoginButton()
                 .enterEmailInput("vovchyk20080@gmail.com")
                 .enterPasswordInput("1234")
-                .clickOnMonitors();
+                .clickOnMonitors()
+                .clickAddToWishList()
+                .clickOnMyWishList();
+
+        //Assertions.assertThat()
     }
 }
