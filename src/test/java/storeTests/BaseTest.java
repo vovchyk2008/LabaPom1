@@ -1,5 +1,7 @@
 package storeTests;
 
+import com.github.javafaker.Faker;
+import org.assertj.core.api.SoftAssertions;
 import pages.BasePage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 public class BaseTest {
 
     @BeforeMethod
-    public void setUp(){
+    public void setUp() {
         WebDriverManager.chromedriver().setup();
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -18,8 +20,11 @@ public class BaseTest {
         BasePage.setDriver(driver);
     }
 
+    Faker faker = new Faker();
+    SoftAssertions softAssertions = new SoftAssertions();
+
     @AfterMethod
-    public void quite(){
+    public void quite() {
         BasePage.getDriver().quit();
     }
 }

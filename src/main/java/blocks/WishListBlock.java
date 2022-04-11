@@ -2,7 +2,9 @@ package blocks;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 @Getter
@@ -10,25 +12,44 @@ import org.openqa.selenium.WebElement;
 public class WishListBlock {
 
     private WebElement img;
-    private String productName;
+    private WebElement productName;
+    private String productNameAsString;
     private String model;
     private String stock;
     private String unitPrice;
-    private WebElement addToCartButton;
-    private WebElement removeButton;
 
-    //table
 
     public WishListBlock(WebElement container) {
 
-        this.img = container.findElement(By.xpath("//td[@class='text-center']/a"));
-        this.productName = container.findElement(By.xpath("//td[@class='text-left']/a")).getText();
-        this.unitPrice = container.findElement(By.xpath("//td[@class='text-right']//div[@class='price']")).getText();
+        try {
+            this.img = container.findElement(By.xpath("//td[1]"));
+        }catch (NoSuchElementException e) {
+            this.img = null;
+        }
 
-//        this.model = container.findElement(By.xpath(""));
-//        this.stock = container.findElement(By.xpath(""));
-//        this.addToCartButton = container.findElement(By.xpath(""));
-//        this.removeButton = container.findElement(By.xpath(""));
+        try {
+            this.productName = container.findElement(By.xpath("//td[2]"));
+            this.productNameAsString = productName.getText();
+        }catch (NoSuchElementException e) {
+            this.img = null;
+        }
 
+        try {
+            this.model = container.findElement(By.xpath("//td[3]")).getText();
+        }catch (NoSuchElementException e) {
+            this.img = null;
+        }
+
+        try {
+            this.stock = container.findElement(By.xpath("//td[4]")).getText();
+        }catch (NoSuchElementException e) {
+            this.img = null;
+        }
+
+        try {
+            this.unitPrice = StringUtils.substringBefore(container.findElement(By.xpath("//td[5]")).getText().trim(), " ");
+        }catch (NoSuchElementException e) {
+            this.unitPrice = null;
+        }
     }
 }

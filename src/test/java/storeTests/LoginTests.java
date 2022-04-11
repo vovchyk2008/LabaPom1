@@ -1,26 +1,35 @@
 package storeTests;
 
-import pages.MainPage;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
-import pages.MonitorsPage;
+import pages.CamerasPage;
+import pages.MainPage;
 
-public class LoginTests extends BaseTest{
+import java.util.List;
+
+public class LoginTests extends BaseTest {
     MainPage mainPage = new MainPage();
 
+    String firstName = faker.name().firstName();
+    String lastName = faker.name().lastName();
+    String email = faker.internet().emailAddress();
+    String phone = faker.phoneNumber().phoneNumber();
+    String password = faker.internet().password();
+
+
     @Test(priority = 1)
-    public void checkThatMessageYourAccountHasBeenCreatedAppearsTest(){
+    public void checkThatMessageYourAccountHasBeenCreatedAppearsTest() {
         String expectedMessage = "Your Account Has Been Created!";
 
         String successMessage = mainPage
                 .clickOnMyAccountIcon()
                 .clickOnRegistrationButton()
-                .enterFirstNameField("Eltfdon")
-                .enterLastNameField("Jofdfhn")
-                .enterEmailField("Eltdfon@mail.com")
-                .enterTelephoneField("1df111")
-                .enterPasswordField("11df11")
-                .enterConfirmPasswordField("11df11")
+                .enterFirstNameField(firstName)
+                .enterLastNameField(lastName)
+                .enterEmailField(email)
+                .enterTelephoneField(phone)
+                .enterPasswordField(password)
+                .enterConfirmPasswordField(password)
                 .clickOnNotSubscribeRadioButton()
                 .clickOnAgreeCheckBox()
                 .clickOnContinueButton()
@@ -29,23 +38,21 @@ public class LoginTests extends BaseTest{
         Assertions.assertThat(successMessage)
                 .as("Must be: " + expectedMessage + "and actual result is: " + successMessage)
                 .isEqualTo(expectedMessage);
-
-
     }
 
     @Test(priority = 2)
-    public void checkThatMessageFirstNameMustBeBetween1And32CharactersAppearsTest(){
+    public void checkThatMessageFirstNameMustBeBetween1And32CharactersAppearsTest() {
         String expectedAttentionText = "First Name must be between 1 and 32 characters!";
 
 
         String attentionText = mainPage
                 .clickOnMyAccountIcon()
                 .clickOnRegistrationButton()
-                .enterLastNameField("John")
-                .enterEmailField("Elton@mail.com")
-                .enterTelephoneField("1111")
-                .enterPasswordField("1111")
-                .enterConfirmPasswordField("1111")
+                .enterLastNameField(lastName)
+                .enterEmailField(email)
+                .enterTelephoneField(phone)
+                .enterPasswordField(password)
+                .enterConfirmPasswordField(password)
                 .clickOnNotSubscribeRadioButton()
                 .clickOnAgreeCheckBox()
                 .clickOnContinueAttentionButton()
@@ -54,17 +61,16 @@ public class LoginTests extends BaseTest{
         Assertions.assertThat(attentionText)
                 .as("If you not enter first name Attention text must be:" + expectedAttentionText)
                 .isEqualTo(expectedAttentionText);
-
     }
 
     @Test(priority = 3)
-    public void checkThatMyAccountTitleAppearsOnTheLeftMenuTest(){
+    public void checkThatMyAccountTitleAppearsOnTheLeftMenuTest() {
         String expectedTextLabel = "My Account";
 
         String textFromMyAccountLabel = mainPage.clickOnMyAccountIcon()
                 .clickOnLoginButton()
-                .enterEmailInput("Elton@mail.com")
-                .enterPasswordInput("1111")
+                .enterEmailInput(email)
+                .enterPasswordInput(password)
                 .clickOnLoginButton()
                 .getTextFromMyAccountLabel();
 
@@ -74,16 +80,65 @@ public class LoginTests extends BaseTest{
 
     }
 
-    @Test
-    public void checkThat2ItemsExistInYourWishList(){
-        mainPage.clickOnMyAccountIcon()
+    @Test(priority = 4)
+    public void checkThat2ItemsExistInYourWishList() {
+        String expectedProduct1 = "Apple Cinema 30";
+        String expectedProduct2 = "Samsung SyncMaster 941BW";
+
+        List<String> namesFromWishList = mainPage.clickOnMyAccountIcon()
                 .clickOnLoginButton()
-                .enterEmailInput("vovchyk20080@gmail.com")
-                .enterPasswordInput("1234")
+                .enterEmailInput(email)
+                .enterPasswordInput(password)
+                .getMenuBlock()
                 .clickOnMonitors()
                 .clickAddToWishList()
-                .clickOnMyWishList();
+                .getTopLinksBlock()
+                .clickOnMyWishListButton()
+                .getNamesFromWishList();
 
-        //Assertions.assertThat()
+        Assertions.assertThat(namesFromWishList)
+                .as("Products names must be: " + expectedProduct1 + ", " + expectedProduct2)
+                .containsExactlyInAnyOrder(expectedProduct1, expectedProduct2);
+    }
+
+    @Test(priority = 5)
+    public void checkCurrencyPrices() {
+
+        mainPage.getCurrencyBlock()
+                .chooseDollarCurrency();
+
+
+    }
+
+    @Test(priority = 6)
+    public void checkOldNewAndExRatePrices() {
+
+        String firstProduct = "Canon EOS 5D";
+        String secondProduct = "Nikon D300";
+        double expectedOldPriceProduct = 122.00;
+        double expectedNewPriceProduct = 98.00;
+        double expectedExPriceProduct = 80.00;
+
+        mainPage.getMenuBlock()
+                .clickOnCameras();
+
+        CamerasPage camerasPage = new CamerasPage();
+        double actualOldPriceProduct = camerasPage.getOldPriceProduct(firstProduct);
+        double actualNewPriceProduct = camerasPage.getNewPriceProduct(firstProduct);
+        double actualExPriceProduct = camerasPage.getExPriceProduct(secondProduct);
+
+        softAssertions.assertThat(actualOldPriceProduct)
+                .as("Old price must be: " + expectedOldPriceProduct)
+                .isEqualTo(expectedOldPriceProduct);
+
+        softAssertions.assertThat(actualNewPriceProduct)
+                .as("New price must be: " + expectedNewPriceProduct)
+                .isEqualTo(expectedNewPriceProduct);
+
+        softAssertions.assertThat(actualExPriceProduct)
+                .as("Ex tax price: " + expectedExPriceProduct)
+                .isEqualTo(expectedExPriceProduct);
+
+        softAssertions.assertAll();
     }
 }

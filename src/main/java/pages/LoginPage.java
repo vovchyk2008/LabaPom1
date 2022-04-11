@@ -1,5 +1,6 @@
 package pages;
 
+import blocks.MenuBlock;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage{
@@ -7,7 +8,6 @@ public class LoginPage extends BasePage{
     private final By emailInput = By.xpath("//input[@id='input-email']");
     private final By passwordInput = By.xpath("//input[@id='input-password']");
     private final By loginButton = By.xpath("//input[@value='Login']");
-
 
 
     public LoginPage enterEmailInput(String email){

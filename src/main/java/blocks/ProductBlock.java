@@ -2,13 +2,14 @@ package blocks;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 @Getter
 @Setter
-public class MonitorsProductBlock {
+public class ProductBlock {
 
     private WebElement img;
     private WebElement nameAsWebElement;
@@ -24,7 +25,7 @@ public class MonitorsProductBlock {
     private WebElement compareWithProductButton;
 
 
-    public MonitorsProductBlock(WebElement container) {
+    public ProductBlock(WebElement container) {
         try {
             this.img = container.findElement(By.xpath(".//div[@class='image']/a"));
         } catch (NoSuchElementException e) {
@@ -46,7 +47,8 @@ public class MonitorsProductBlock {
         }
 
         try {
-            this.price = container.findElement(By.xpath(".//p[@class='price']")).getText();
+            this.price = StringUtils.substringBefore(
+                    container.findElement(By.xpath(".//p[@class='price']")).getText().trim(), " ");
         } catch (NoSuchElementException e) {
             this.price = null;
         }

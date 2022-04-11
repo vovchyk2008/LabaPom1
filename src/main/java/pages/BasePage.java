@@ -11,6 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 @Getter
 @Setter
 public abstract class BasePage {
+
     private static WebDriver driver;
 
     public static WebDriver getDriver() {
@@ -21,19 +22,10 @@ public abstract class BasePage {
         driver = webDriver;
     }
 
-    MenuBlock menuBlock = new MenuBlock();
-
-
     public WebElement find(By locator) {
         return getDriver().findElement(locator);
     }
 
-    public MonitorsPage clickOnMonitors(){
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(find(menuBlock.getComponentsMenuButton())).build().perform();
-        getDriver().findElement(menuBlock.getMonitorsButton()).click();
-        return new MonitorsPage();
-    }
-
+    MenuBlock menuBlock = new MenuBlock(driver);
 
 }

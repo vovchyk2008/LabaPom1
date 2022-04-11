@@ -1,5 +1,7 @@
 package pages;
 
+import blocks.CurrencyBlock;
+import blocks.MenuBlock;
 import org.openqa.selenium.By;
 
 public class MainPage extends BasePage{
@@ -25,7 +27,16 @@ public class MainPage extends BasePage{
         return new LoginPage();
     }
 
+    MenuBlock menuBlock = new MenuBlock(getDriver());
 
+    @Override
+    public MenuBlock getMenuBlock() {
+        return menuBlock;
+    }
 
+    CurrencyBlock currencyBlock = new CurrencyBlock(getDriver());
 
+    public CurrencyBlock getCurrencyBlock() {
+        return currencyBlock;
+    }
 }
