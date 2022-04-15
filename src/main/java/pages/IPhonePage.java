@@ -14,6 +14,6 @@ public class IPhonePage extends BasePage{
 
     public IPhonePage clickOnIPhone(){
         List<WebElement> fieldOfProduct = getDriver().findElements(singleProductContainer);
-        SingleProductPage singleProductPage = new SingleProductPage(getDriver().findElements(singleProductContainer));
-    }
+       
+
 }
