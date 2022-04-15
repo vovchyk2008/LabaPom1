@@ -106,6 +106,8 @@ public class LoginTests extends BaseTest {
 
         mainPage.getCurrencyBlock()
                 .chooseDollarCurrency();
+        mainPage.
+
 
 
     }

@@ -27,16 +27,9 @@ public class MainPage extends BasePage{
         return new LoginPage();
     }
 
-    MenuBlock menuBlock = new MenuBlock(getDriver());
 
-    @Override
-    public MenuBlock getMenuBlock() {
-        return menuBlock;
-    }
 
-    CurrencyBlock currencyBlock = new CurrencyBlock(getDriver());
 
-    public CurrencyBlock getCurrencyBlock() {
-        return currencyBlock;
-    }
+
+
 }

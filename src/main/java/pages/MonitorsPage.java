@@ -13,11 +13,7 @@ public class MonitorsPage extends BasePage {
 
     private final By productContainer = By.xpath("//div[@class='product-thumb']");
 
-    TopLinksBlock topLinksBlock = new TopLinksBlock(getDriver());
 
-    public TopLinksBlock getTopLinksBlock() {
-        return topLinksBlock;
-    }
 
     public List<ProductBlock> getAllProductsFromMonitorsPage() {
         List<ProductBlock> monitors = new ArrayList<>();

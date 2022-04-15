@@ -22,32 +22,32 @@ public class WishListBlock {
     public WishListBlock(WebElement container) {
 
         try {
-            this.img = container.findElement(By.xpath("//td[1]"));
+            this.img = container.findElement(By.xpath(".//td[1]"));
         }catch (NoSuchElementException e) {
             this.img = null;
         }
 
         try {
-            this.productName = container.findElement(By.xpath("//td[2]"));
+            this.productName = container.findElement(By.xpath(".//td[2]"));
             this.productNameAsString = productName.getText();
         }catch (NoSuchElementException e) {
             this.img = null;
         }
 
         try {
-            this.model = container.findElement(By.xpath("//td[3]")).getText();
+            this.model = container.findElement(By.xpath(".//td[3]")).getText();
         }catch (NoSuchElementException e) {
             this.img = null;
         }
 
         try {
-            this.stock = container.findElement(By.xpath("//td[4]")).getText();
+            this.stock = container.findElement(By.xpath(".//td[4]")).getText();
         }catch (NoSuchElementException e) {
             this.img = null;
         }
 
         try {
-            this.unitPrice = StringUtils.substringBefore(container.findElement(By.xpath("//td[5]")).getText().trim(), " ");
+            this.unitPrice = StringUtils.substringBefore(container.findElement(By.xpath(".//td[5]")).getText().trim(), " ");
         }catch (NoSuchElementException e) {
             this.unitPrice = null;
         }

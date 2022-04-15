@@ -1,6 +1,9 @@
 package pages;
 
+import blocks.CurrencyBlock;
 import blocks.MenuBlock;
+import blocks.SingleProductPage;
+import blocks.TopLinksBlock;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
@@ -27,5 +30,20 @@ public abstract class BasePage {
     }
 
     MenuBlock menuBlock = new MenuBlock(driver);
+
+    public MenuBlock getMenuBlock() {
+        return menuBlock;
+    }
+
+    CurrencyBlock currencyBlock = new CurrencyBlock(getDriver());
+
+    public CurrencyBlock getCurrencyBlock() {
+        return currencyBlock;
+    }
+    TopLinksBlock topLinksBlock = new TopLinksBlock(getDriver());
+
+    public TopLinksBlock getTopLinksBlock() {
+        return topLinksBlock;
+    }
 
 }

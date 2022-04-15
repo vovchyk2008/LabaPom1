@@ -20,6 +20,7 @@ public class CamerasPage extends BasePage{
         }
         return products;
     }
+
     public double getOldPriceProduct(String nameProduct) {
         List<ProductBlock> products = getProductsFromCamerasCardPage();
         for (ProductBlock product : products) {
