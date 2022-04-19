@@ -2,6 +2,9 @@ package blocks;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 
 public class CurrencyBlock {
@@ -14,15 +17,18 @@ public class CurrencyBlock {
 
 
     private static WebDriver driver;
+    private static WebDriverWait wait;
 
     public CurrencyBlock(WebDriver webDriver) {
         driver = webDriver;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public void chooseDollarCurrency() {
-        if (!driver.findElement(currencyMark).getText().equals("$"))
+        if (!driver.findElement(currencyMark).getText().equals("$")) {
             driver.findElement(currencyButton).click();
-        driver.findElement(dollar).click();
+            driver.findElement(dollar).click();
+        }
     }
 
     public void chooseEuroCurrency() {

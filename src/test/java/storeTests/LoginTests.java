@@ -1,14 +1,17 @@
 package storeTests;
 
+import blocks.ProductBlock;
+import blocks.SingleProductBlock;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 import pages.CamerasPage;
 import pages.MainPage;
+import pages.SingleProductPage;
 
 import java.util.List;
 
 public class LoginTests extends BaseTest {
-    MainPage mainPage = new MainPage();
+
 
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
@@ -20,7 +23,7 @@ public class LoginTests extends BaseTest {
     @Test(priority = 1)
     public void checkThatMessageYourAccountHasBeenCreatedAppearsTest() {
         String expectedMessage = "Your Account Has Been Created!";
-
+        MainPage mainPage = new MainPage();
         String successMessage = mainPage
                 .clickOnMyAccountIcon()
                 .clickOnRegistrationButton()
@@ -43,7 +46,7 @@ public class LoginTests extends BaseTest {
     @Test(priority = 2)
     public void checkThatMessageFirstNameMustBeBetween1And32CharactersAppearsTest() {
         String expectedAttentionText = "First Name must be between 1 and 32 characters!";
-
+        MainPage mainPage = new MainPage();
 
         String attentionText = mainPage
                 .clickOnMyAccountIcon()
@@ -66,6 +69,7 @@ public class LoginTests extends BaseTest {
     @Test(priority = 3)
     public void checkThatMyAccountTitleAppearsOnTheLeftMenuTest() {
         String expectedTextLabel = "My Account";
+        MainPage mainPage = new MainPage();
 
         String textFromMyAccountLabel = mainPage.clickOnMyAccountIcon()
                 .clickOnLoginButton()
@@ -84,6 +88,7 @@ public class LoginTests extends BaseTest {
     public void checkThat2ItemsExistInYourWishList() {
         String expectedProduct1 = "Apple Cinema 30";
         String expectedProduct2 = "Samsung SyncMaster 941BW";
+        MainPage mainPage = new MainPage();
 
         List<String> namesFromWishList = mainPage.clickOnMyAccountIcon()
                 .clickOnLoginButton()
@@ -103,41 +108,70 @@ public class LoginTests extends BaseTest {
 
     @Test(priority = 5)
     public void checkCurrencyPrices() {
+        MainPage mainPage = new MainPage();
 
         mainPage.getCurrencyBlock()
                 .chooseDollarCurrency();
-        mainPage.
+        List<ProductBlock> allProductsFromMainPage = mainPage.getAllProductsFromMainPage();
+        SingleProductBlock iPhoneInfo = mainPage.clickOnProductWithName(allProductsFromMainPage, "iPhone")
+                .getProductInfo();
 
+        String expectedPriceInDollars = "$123.20";
+        String actualPriceInDollar = iPhoneInfo.getPrice();
 
+        Assertions.assertThat(actualPriceInDollar)
+                .as("We expect on price: " + expectedPriceInDollars)
+                .isEqualTo(expectedPriceInDollars);
+
+        SingleProductPage singleProductPage = new SingleProductPage();
+        singleProductPage.getCurrencyBlock().chooseEuroCurrency();
+        iPhoneInfo = singleProductPage.getProductInfo();
+
+        String expectedPriceInEuro = "106.04€";
+        String actualPriceInEuro = iPhoneInfo.getPrice();
+
+        Assertions.assertThat(actualPriceInEuro)
+                .as("We expect on price: " + expectedPriceInEuro)
+                .isEqualTo(expectedPriceInEuro);
+
+        singleProductPage.getCurrencyBlock().chooseSterlingCurrency();
+        iPhoneInfo = singleProductPage.getProductInfo();
+
+        String expectedPriceInPoundSterling = "£95.32";
+        String actualPriceInPoundSterling = iPhoneInfo.getPrice();
+
+        Assertions.assertThat(actualPriceInPoundSterling)
+                .as("We expect on price: " + expectedPriceInPoundSterling)
+                .isEqualTo(expectedPriceInPoundSterling);
 
     }
 
     @Test(priority = 6)
     public void checkOldNewAndExRatePrices() {
-
-        String firstProduct = "Canon EOS 5D";
-        String secondProduct = "Nikon D300";
+        String canonProductName = "Canon EOS 5D";
+        String nikonProductName = "Nikon D300";
         double expectedOldPriceProduct = 122.00;
         double expectedNewPriceProduct = 98.00;
         double expectedExPriceProduct = 80.00;
 
-        mainPage.getMenuBlock()
-                .clickOnCameras();
+        MainPage mainPage = new MainPage();
+        List<ProductBlock> productsFromCamerasCardPage = mainPage.getMenuBlock()
+                .clickOnCameras().getProductsFromCamerasCardPage();
 
         CamerasPage camerasPage = new CamerasPage();
-        double actualOldPriceProduct = camerasPage.getOldPriceProduct(firstProduct);
-        double actualNewPriceProduct = camerasPage.getNewPriceProduct(firstProduct);
-        double actualExPriceProduct = camerasPage.getExPriceProduct(secondProduct);
+        ProductBlock canonProduct = camerasPage.getProductWithName(productsFromCamerasCardPage, canonProductName);
+        ProductBlock nikonProduct = camerasPage.getProductWithName(productsFromCamerasCardPage, nikonProductName);
 
-        softAssertions.assertThat(actualOldPriceProduct)
+
+        softAssertions.assertThat(canonProduct.getOldPriceAsDouble())
                 .as("Old price must be: " + expectedOldPriceProduct)
                 .isEqualTo(expectedOldPriceProduct);
 
-        softAssertions.assertThat(actualNewPriceProduct)
+        softAssertions.assertThat(canonProduct.getNewPriceAsDouble())
                 .as("New price must be: " + expectedNewPriceProduct)
                 .isEqualTo(expectedNewPriceProduct);
 
-        softAssertions.assertThat(actualExPriceProduct)
+        softAssertions.assertThat(nikonProduct.getExTaxAsDouble())
                 .as("Ex tax price: " + expectedExPriceProduct)
                 .isEqualTo(expectedExPriceProduct);
 

@@ -17,9 +17,13 @@ public class ProductBlock {
     private String description;
     private String discountedPrice;
     private String price;
+    private Double priceAsDouble;
     private String newPrice;
+    private Double newPriceAsDouble;
     private String oldPrice;
+    private Double oldPriceAsDouble;
     private String exTax;
+    private Double exTaxAsDouble;
     private WebElement addToCartButton;
     private WebElement addToWishListButton;
     private WebElement compareWithProductButton;
@@ -47,28 +51,39 @@ public class ProductBlock {
         }
 
         try {
-            this.price = StringUtils.substringBefore(
-                    container.findElement(By.xpath(".//p[@class='price']")).getText().trim(), " ");
+            this.price = container.findElement(By.xpath(".//p[@class='price']")).getText().substring(0,6);
+            this.priceAsDouble = Double.parseDouble(price.substring(1));
         } catch (NoSuchElementException e) {
             this.price = null;
+            this.priceAsDouble = null;
         }
 
         try {
-            this.newPrice = container.findElement(By.xpath(".//p[@class='price']//span[@class='price-new']")).getText();
+            this.newPrice = container.findElement(
+                    By.xpath(".//p[@class='price']//span[@class='price-new']")).getText();
+            this.newPriceAsDouble = Double.parseDouble(newPrice.substring(1));
         } catch (NoSuchElementException e) {
             this.newPrice = null;
+            this.newPriceAsDouble = null;
         }
 
         try {
-            this.oldPrice = container.findElement(By.xpath(".//p[@class='price']//span[@class='price-old']")).getText();
+            this.oldPrice = container.findElement(
+                    By.xpath(".//p[@class='price']//span[@class='price-old']")).getText();
+            this.oldPriceAsDouble = Double.parseDouble(oldPrice.substring(1));
         } catch (NoSuchElementException e) {
             this.oldPrice = null;
+            this.oldPriceAsDouble = null;
         }
 
         try {
-            this.exTax = container.findElement(By.xpath(".//p[@class='price']//span[@class='price-tax']")).getText();
+            this.exTax = container.findElement(
+                    By.xpath(".//p[@class='price']//span[@class='price-tax']")).getText()
+                    .replace("Ex Tax: ", "");
+            this.exTaxAsDouble = Double.parseDouble(exTax.substring(1));
         } catch (NoSuchElementException e) {
             this.exTax = null;
+            this.exTaxAsDouble = null;
         }
 
         try {

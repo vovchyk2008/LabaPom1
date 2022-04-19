@@ -3,13 +3,12 @@ package pages;
 import blocks.ProductBlock;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class CamerasPage extends BasePage{
+public class CamerasPage extends BasePage {
 
-    private By productContainer = By.xpath("//div[@class='product-thumb']");
+    private By productContainer = By.xpath("//div[contains(@class,'product-thumb')]");
 
     public List<ProductBlock> getProductsFromCamerasCardPage() {
         List<ProductBlock> products = new ArrayList<>();
@@ -21,36 +20,12 @@ public class CamerasPage extends BasePage{
         return products;
     }
 
-    public double getOldPriceProduct(String nameProduct) {
-        List<ProductBlock> products = getProductsFromCamerasCardPage();
+    public ProductBlock getProductWithName(List<ProductBlock> products, String productName) {
         for (ProductBlock product : products) {
-            if (product.getNameAsString().equals(nameProduct)) {
-                String oldPrice = product.getOldPrice().substring(1);
-                return Double.parseDouble(oldPrice);
+            if (product.getNameAsString().equals(productName)) {
+                return product;
             }
         }
-        return 0;
-    }
-
-    public double getNewPriceProduct(String nameProduct) {
-        List<ProductBlock> products = getProductsFromCamerasCardPage();
-        for (ProductBlock product : products) {
-            if (product.getNameAsString().equals(nameProduct)) {
-                String newPrice = product.getNewPrice().substring(1);
-                return Double.parseDouble(newPrice);
-            }
-        }
-        return 0;
-    }
-
-    public double getExPriceProduct(String nameProduct) {
-        List<ProductBlock> products = getProductsFromCamerasCardPage();
-        for (ProductBlock product : products) {
-            if (product.getNameAsString().equals(nameProduct)) {
-                String exPrice = product.getExTax().substring(1);
-                return Double.parseDouble(exPrice);
-            }
-        }
-        return 0;
+        throw new IllegalArgumentException("Cannot find product with name: " + productName);
     }
 }

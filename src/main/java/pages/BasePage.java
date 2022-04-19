@@ -2,14 +2,12 @@ package pages;
 
 import blocks.CurrencyBlock;
 import blocks.MenuBlock;
-import blocks.SingleProductPage;
 import blocks.TopLinksBlock;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 @Getter
 @Setter
